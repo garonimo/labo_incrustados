@@ -1,5 +1,10 @@
 #include "msp.h"
 
+#include "driverlib.h"
+#include "HAL_I2C.h"
+#include "HAL_OPT3001.h"
+
+
 
 void BlinkLEDs(int l_intBlinkTime)
 {
