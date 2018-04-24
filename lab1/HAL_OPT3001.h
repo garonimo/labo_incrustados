@@ -78,6 +78,9 @@ active low.
 ME (Bit 2) � Exponent mask. In fixed range modes masks the exponent bits in the result register to �0000�.
 FC1 to FC0 - Fault count bits. Read/write bits. Default �00� - the first fault will trigger the alert pin.
 */
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 void OPT3001_init(void);
 unsigned long int OPT3001_getLux(void);
@@ -87,5 +90,8 @@ unsigned int OPT3001_readConfigReg(void);
 unsigned int OPT3001_readLowLimitReg(void);
 unsigned int OPT3001_readHighLimitReg(void);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* __HAL_OPT3001_H_ */

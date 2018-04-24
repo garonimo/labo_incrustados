@@ -37,6 +37,10 @@
 #ifndef __ROM_MAP_H__
 #define __ROM_MAP_H__
 
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 //*****************************************************************************
 //
 // Macros for the ADC14 API.
@@ -3629,6 +3633,10 @@
 #else
 #define MAP_WDT_A_setTimeoutReset                                             \
         WDT_A_setTimeoutReset
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif // __ROM_MAP_H__

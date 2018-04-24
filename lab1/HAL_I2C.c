@@ -117,8 +117,7 @@ int I2C_read16(unsigned char writeByte)
     I2C_masterSendMultiByteStop(EUSCI_B1_BASE);
 
     /* Wait for Stop to finish */
-    while(!I2C_getInterruptStatus(EUSCI_B1_BASE,
-        EUSCI_B_I2C_STOP_INTERRUPT));
+    while(!I2C_getInterruptStatus(EUSCI_B1_BASE, EUSCI_B_I2C_STOP_INTERRUPT));
 
     /*
      * Generate Start condition and set it to receive mode.
@@ -128,8 +127,7 @@ int I2C_read16(unsigned char writeByte)
     I2C_masterReceiveStart(EUSCI_B1_BASE);
 
     /* Wait for RX buffer to fill */
-    while(!(I2C_getInterruptStatus(EUSCI_B1_BASE,
-        EUSCI_B_I2C_RECEIVE_INTERRUPT0)));
+    while(!(I2C_getInterruptStatus(EUSCI_B1_BASE, EUSCI_B_I2C_RECEIVE_INTERRUPT0)));
 
     /* Read from I2C RX register */
     val = I2C_masterReceiveMultiByteNext(EUSCI_B1_BASE);
