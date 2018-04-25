@@ -15,6 +15,8 @@ float g_floatMicPromValue = 0;
 uint16_t g_uint16_tDayNight_Threshold = 17; //Umbral dia/noche
 bool g_boolIsLightOn = false;
 bool g_boolAreLEDsBlincked = false;
+bool g_boolUseRealTime = false;
+int g_intRealTimeCounter = 0;
 volatile uint16_t g_uint16MicrophoneValue;
 int g_intMicValue1;
 int g_intMicValue2;
@@ -34,7 +36,10 @@ float g_floatMicRead_Prom_5sec = 0;  //promedio de os ultimos 5 segundos
 
 void BlinkLEDs()
 {
-    P2->OUT ^= g_intLightsCtrl;
+
+    P2->DIR |= g_intLightsCtrl;
+    P2->OUT |= g_intLightsCtrl;
+
     for(int i = 0; i < g_intBlinkTime; i++);
     P2->OUT ^= g_intLightsCtrl;
 
@@ -59,7 +64,7 @@ void ADC_SetUp()
     P4->SEL0 |= BIT3;
 
     // Se establece el tiempo de muestreo
-    ADC14->CTL0 = ADC14_CTL0_ON | ADC14_CTL0_SHP| ADC14_CTL0_SHT0_3;
+    ADC14->CTL0 = ADC14_CTL0_ON | ADC14_CTL0_SHP| ADC14_CTL0_SHT0_2;
     // Conversiones de 14 bits
     ADC14->CTL1 = ADC14_CTL1_RES_2;
     //
@@ -151,12 +156,12 @@ void Set_Status()
 
        uint16_t l_uint8_ButtonFlag = P4 -> IN;
 
-       /*Para la supresion de rebotes*/
-       if (l_uint8_ButtonFlag == 253)
+       /*Para la supresion de rebotes
+       if (l_uint8_ButtonFlag < 255)
        {
            while(P4 -> IN != 255);
            l_boolWasButtonPushed = true;
-       }
+       }*/
 
        l_floatLightSensorValue = OPT3001_getLux();
        // Se habilitan las interrupciones en NVIC para ambos timer
@@ -188,8 +193,6 @@ void Set_Status()
 void initialConfiguration()
 {
 
-    P2->DIR = BIT0 | BIT1 | BIT2;
-
     ligthSensor_SetUp();
     ADC_SetUp();            //para el microfono
     Timer_microphone_setUp();
@@ -197,8 +200,6 @@ void initialConfiguration()
     Set_Status();
 }
 
-extern "C"
-{
     /*Interrupcion para la lectura del microfono
      * Esta interrupcion lee el microfono cada 0.125s, cada segundo saca el promedio
      * del nivel de sonido de ese segundo con 8 muestras.
@@ -206,7 +207,8 @@ extern "C"
      * despues va rotando cada valor. Haciendo que en la variable g_floatMicRead_Prom6 se guarde
      * el promedio del ultimo segundo y en otra variable se pueda guardar el valos de los 5 segundos
      * anteriores al ultimo. */
-
+extern "C"
+{
     void T32_INT1_IRQHandler(void)
     {
         float l_floatMicPromValue;
@@ -288,10 +290,25 @@ extern "C"
 {
     void T32_INT2_IRQHandler(void) //Interrupcion para la luz encendida
     {
-        P2->OUT &= ~BIT0 & ~BIT1 & ~BIT2;
-        g_boolIsLightOn = false;
-        TIMER32_2->CONTROL &= ~TIMER32_CONTROL_ENABLE &
-                  ~TIMER32_CONTROL_IE;      // Para  deshabilitar el timer que cuenta cuando se enciende la luz
+        if (~g_boolUseRealTime)
+        {
+            P2->OUT &= ~g_intLightsCtrl;
+            g_boolIsLightOn = false;
+            TIMER32_2->CONTROL &= ~TIMER32_CONTROL_ENABLE &
+                      ~TIMER32_CONTROL_IE;      // Para  deshabilitar el timer que cuenta cuando se enciende la luz
+        }
+        else
+        {
+            g_intRealTimeCounter += 1;
+            if (g_intRealTimeCounter >= 600)
+            {
+                P2->OUT &= ~g_intLightsCtrl;
+                            g_boolIsLightOn = false;
+                TIMER32_2->CONTROL &= ~TIMER32_CONTROL_ENABLE &
+                                      ~TIMER32_CONTROL_IE;
+                g_intRealTimeCounter = 0;
+            }
+        }
 
         TIMER32_2->INTCLR |= BIT0;          // se borra la bandera de interrupcion
     }
