@@ -3,6 +3,52 @@
 
 /home/andres/ti/ccsv7/utils/bin/gmake -k -j 4 all -O 
  
-gmake[1]: 'lab1.out' is up to date.
+Building file: "../Control_luces.cpp"
+Invoking: ARM Compiler
+"/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --include_path="/home/andres/ti/ccsv7/ccs_base/arm/include" --include_path="/home/andres/ti/ccsv7/ccs_base/arm/include/CMSIS" --include_path="/home/andres/workspace_v7/labo_incrustados/lab1" --include_path="/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include" --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="Control_luces.d_raw"  "../Control_luces.cpp"
+"/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__algobase.h", line 199: remark #1542-D: (ULP 12.1) Detected memcpy() and recommend using DMA instead if greater than 100 words being transferred
+"/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__algobase.h", line 231: remark #1542-D: (ULP 12.1) Detected memcpy() and recommend using DMA instead if greater than 100 words being transferred
+"/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/s__uninitialized.h", line 113: remark #1542-D: (ULP 12.1) Detected memcpy() and recommend using DMA instead if greater than 100 words being transferred
+"../Control_luces.cpp", line 45: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 48: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 51: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 54: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 57: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 45: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 48: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 51: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 54: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 57: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 97: remark #1527-D: (ULP 2.1) Detected SW delay loop using __delay_cycles. Recommend using a timer module instead
+"../Control_luces.cpp", line 186: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 189: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 197: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 208: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 225: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 186: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 189: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 197: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 208: remark #2623-D: (ULP 5.4) Detected an assignment to a type with size less than int. To avoid unnecessary sign extension, use int-sized types for local varaibles and convert to smaller types for static storage.
+"../Control_luces.cpp", line 225: remark #1527-D: (ULP 2.1) Detected SW delay loop using empty loop. Recommend using a timer module instead
+"../Control_luces.cpp", line 235 (col. 40): remark #1531-D: (ULP 5.2) Detected floating point operation(s). Recommend moving them to RAM during run time or not using as these are processing/power intensive
+Finished building: "../Control_luces.cpp"
+ 
+Building target: "lab1.out"
+Invoking: ARM Linker
+"/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --advice:power=all --define=__MSP432P401R__ --define=ccs -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"lab1.map" --heap_size=1024 --stack_size=512 -i"/home/andres/ti/ccsv7/ccs_base/arm/include" -i"/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/lib" -i"/home/andres/ti/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="lab1_linkInfo.xml" --rom_model -o "lab1.out" "./Control_luces.obj" "./HAL_I2C.obj" "./HAL_OPT3001.obj" "./adc14.obj" "./aes256.obj" "./comp_e.obj" "./cpu.obj" "./crc32.obj" "./cs.obj" "./dma.obj" "./flash.obj" "./fpu.obj" "./gpio.obj" "./i2c.obj" "./interrupt.obj" "./main.obj" "./mpu.obj" "./pcm.obj" "./pmap.obj" "./pss.obj" "./ref_a.obj" "./reset.obj" "./rtc_c.obj" "./spi.obj" "./startup_msp432p401r_ccs.obj" "./sysctl.obj" "./system_msp432p401r.obj" "./systick.obj" "./timer32.obj" "./timer_a.obj" "./uart.obj" "./wdt_a.obj" "../msp432p401r.cmd"  -llibc.a 
+<Linking>
+remark #10371-D: (ULP 1.1) Detected no uses of low power mode state changing instructions
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 1 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 2 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 3 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 4 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 5 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 6 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 7 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 8 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 9 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+remark #10372-D: (ULP 4.1) Detected uninitialized Port 10 in this project. Recommend initializing all unused ports to eliminate wasted current consumption on unused pins.
+Finished building target: "lab1.out"
+ 
 
 **** Build Finished ****

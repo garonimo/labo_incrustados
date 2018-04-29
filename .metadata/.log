@@ -1000,3 +1000,40 @@ Binding(ALT+ARROW_LEFT,
 !ENTRY com.ti.ccstudio.debug 1 0 2018-04-25 02:43:32.700
 !MESSAGE DS_ERROR: CORTEX_M4_0: Failed to remove the debug state from the target before disconnecting.  There may still be breakpoint op-codes embedded in program memory.  It is recommended that you reset the emulator before you connect and reload your program before you continue debugging
 
+!SESSION 2018-04-29 13:14:02.618 -----------------------------------------------
+eclipse.buildId=4.6.0.I20160606-1100
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product com.ti.ccstudio.branding.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product com.ti.ccstudio.branding.product
+
+!ENTRY com.ti.common.core 4 0 2018-04-29 13:14:33.466
+!MESSAGE path=ccs_base/DebugServer
+
+!ENTRY com.ti.common.core 4 0 2018-04-29 13:14:33.490
+!MESSAGE debugServerDir=/home/andres/ti/ccsv7/ccs_base/DebugServer
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-04-29 15:23:54.510
+!MESSAGE DS_ERROR: CS_DAP_0: Error: (Error -261 @ 0x0) Invalid response was received from the XDS110. (Emulation package 7.0.100.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-04-29 15:23:54.557
+!MESSAGE DS_ERROR: CS_DAP_0: Error: (Error -122 @ 0x0) A bad parameter value was detected within a function. It is likely a problem with `SC_ARGS' in SMG_call(). (Emulation package 7.0.100.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-04-29 15:23:54.813
+!MESSAGE DS_ERROR: CS_DAP_0: Unable to determine target status after 20 attempts
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-04-29 15:23:54.830
+!MESSAGE DS_ERROR: CS_DAP_0: Failed to remove the debug state from the target before disconnecting.  There may still be breakpoint op-codes embedded in program memory.  It is recommended that you reset the emulator before you connect and reload your program before you continue debugging
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-04-29 15:23:54.942
+!MESSAGE DS_ERROR: CORTEX_M4_0: JTAG Communication Error: (Error -261 @ 0x0) Invalid response was received from the XDS110. (Emulation package 7.0.100.0) 
+
+
+!ENTRY com.ti.ccstudio.debug 1 0 2018-04-29 15:23:54.992
+!MESSAGE DS_ERROR: CORTEX_M4_0: Failed to remove the debug state from the target before disconnecting.  There may still be breakpoint op-codes embedded in program memory.  It is recommended that you reset the emulator before you connect and reload your program before you continue debugging
+

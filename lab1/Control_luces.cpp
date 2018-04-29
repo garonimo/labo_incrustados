@@ -5,9 +5,9 @@
 #include "HAL_OPT3001.h"
 #include <iostream>
 
-int g_intNumberOfLights = 2; //1,2 o 3
-int g_intLightsCtrl;
+int g_intNumberOfLights = 3; //1,2 o 3
 
+int g_intLightsCtrl;
 int g_intBlinkTime = 550000;
 int g_intCounterInterrupMic = 0;
 int g_intCounterMic_Prom = 0;
@@ -16,16 +16,17 @@ uint16_t g_uint16_tDayNight_Threshold = 17; //Umbral dia/noche
 bool g_boolIsLightOn = false;
 bool g_boolAreLEDsBlincked = false;
 bool g_boolUseRealTime = false;
+bool g_boolWasLightCtrlPushed = false;
 int g_intRealTimeCounter = 0;
 volatile uint16_t g_uint16MicrophoneValue;
-int g_intMicValue1;
-int g_intMicValue2;
-int g_intMicValue3;
-int g_intMicValue4;
-int g_intMicValue5;
-int g_intMicValue6;
-int g_intMicValue7;
-int g_intMicValue8;
+int g_intMicValue1 = 0;
+int g_intMicValue2 = 0;
+int g_intMicValue3 = 0;
+int g_intMicValue4 = 0;
+int g_intMicValue5 = 0;
+int g_intMicValue6 = 0;
+int g_intMicValue7 = 0;
+int g_intMicValue8 = 0;
 float g_floatMicRead_Prom1 = 0;
 float g_floatMicRead_Prom2 = 0;
 float g_floatMicRead_Prom3 = 0;
@@ -73,6 +74,7 @@ void ADC_SetUp()
     ADC14->CTL0 |= ADC14_CTL0_ENC;
 }
 
+
 void ligthSensor_SetUp()
 {
     /* Initializes Clock System */
@@ -94,6 +96,7 @@ void ligthSensor_SetUp()
     __delay_cycles(100000);
 }
 
+
 void Timer_microphone_setUp()
 {
     // Se usa el timer con 32 bits y sin pre-escala
@@ -109,6 +112,7 @@ void Timer_microphone_setUp()
               TIMER32_CONTROL_IE;
 }
 
+
 void Timer_Light_On_setUp()
 {
     // Se usa el timer con 32 bits y sin pre-escala
@@ -121,32 +125,51 @@ void Timer_Light_On_setUp()
 
 }
 
+
+/*Aqui se determina si se usan 1(verde), 2(rojo) o 3(Blanco) luces*/
+void Num_Of_Lights()
+{
+    if (g_boolWasLightCtrlPushed)
+    {
+        g_intNumberOfLights += 1;
+        g_boolWasLightCtrlPushed = false;
+    }
+
+    if (g_intNumberOfLights > 3)
+    {
+        g_intNumberOfLights = 1;
+    }
+
+    if (g_intNumberOfLights == 3)
+    {
+        g_intLightsCtrl = BIT0 | BIT1 | BIT2;
+    }
+    else if (g_intNumberOfLights == 2)
+    {
+        g_intLightsCtrl = BIT0;
+    }
+    else if (g_intNumberOfLights == 1)
+    {
+        g_intLightsCtrl = BIT1;
+    }
+    else
+    {
+        g_intLightsCtrl = BIT0 | BIT1 | BIT2;
+    }
+
+}
+
+
 void Set_Status()
 {
 
    float l_floatLightSensorValue;
    bool l_boolWasButtonPushed = false;
 
-   P4->DIR &= ~BIT0;   //joystick button as an input
+   P4->DIR &= ~BIT0;   //Boton del joystick como entrada
+   P5->DIR &= ~BIT1;   //Boton 1 como entrada
 
-
-   if (g_intNumberOfLights == 3)
-   {
-       g_intLightsCtrl = BIT0 | BIT1 | BIT2;
-   }
-   else if (g_intNumberOfLights == 2)
-   {
-       g_intLightsCtrl = BIT0;
-   }
-   else if (g_intNumberOfLights == 1)
-   {
-       g_intLightsCtrl = BIT1;
-   }
-   else
-   {
-       g_intLightsCtrl = BIT0 | BIT1 | BIT2;
-   }
-
+   Num_Of_Lights();
    BlinkLEDs();
 
    /*Este es el loop principal, aqui se determina si se enciende la luz o no, se
@@ -154,14 +177,42 @@ void Set_Status()
    while(1)
     {
 
-       uint16_t l_uint8_ButtonFlag = P4 -> IN;
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    //---------------------------Lectura de Botones--------------------------------------------------
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
-       /*Para la supresion de rebotes
-       if (l_uint8_ButtonFlag < 255)
+       uint8_t l_uint8ButtonFlag = P4 -> IN;
+       l_uint8ButtonFlag &= ~BIT0 & ~BIT2 &  ~BIT3 & ~BIT4 &  ~BIT5 & ~BIT6 & ~BIT7;
+
+       uint8_t l_uint8NumLights_button = P5 -> IN;
+       l_uint8NumLights_button &= ~BIT0 & ~BIT2 &  ~BIT3 & ~BIT4 &  ~BIT5 & ~BIT6 & ~BIT7;
+
+       //Para la supresion de rebotes - Boton de encendido
+       if (l_uint8ButtonFlag < 2)
        {
-           while(P4 -> IN != 255);
+           while(l_uint8ButtonFlag < 2)
+           {
+               l_uint8ButtonFlag = P4 -> IN;
+               l_uint8ButtonFlag &= ~BIT0 & ~BIT2 &  ~BIT3 & ~BIT4 &  ~BIT5 & ~BIT6 & ~BIT7;
+           }
            l_boolWasButtonPushed = true;
-       }*/
+       }
+
+       //Para la supresion de rebotes - Boton de control de luces
+       if (l_uint8NumLights_button < 2)
+       {
+           while(l_uint8NumLights_button < 2)
+           {
+               l_uint8NumLights_button = P5 -> IN;
+               l_uint8NumLights_button &= ~BIT0 & ~BIT2 &  ~BIT3 & ~BIT4 &  ~BIT5 & ~BIT6 & ~BIT7;
+           }
+           g_boolWasLightCtrlPushed = true;
+           Num_Of_Lights();
+       }
+
+     //////////////////////////////////////////////////////////////////////////////////////////////////////
+     //---------------------------Lectura de microfono y sensor de luz-------------------------------------
+     //////////////////////////////////////////////////////////////////////////////////////////////////////
 
        l_floatLightSensorValue = OPT3001_getLux();
        // Se habilitan las interrupciones en NVIC para ambos timer
@@ -173,12 +224,20 @@ void Set_Status()
        while (!(ADC14->IFGR0 & BIT0));
        g_uint16MicrophoneValue = ADC14->MEM[0];             // Resultado del ADC
 
+
+       /*En esta seccion hay calculos que ayudan a determinar si se encienden o no las luces
+        * en la siguiente sección
+        * */
        g_floatMicRead_Prom_5sec = (g_floatMicRead_Prom5 + g_floatMicRead_Prom4 + g_floatMicRead_Prom3 + g_floatMicRead_Prom2 + g_floatMicRead_Prom1)/5;
        g_floatMicPromValue = (g_uint16MicrophoneValue + g_intMicValue2 + g_intMicValue3 + g_intMicValue4 + g_intMicValue5 + g_intMicValue6 + g_intMicValue7 + g_intMicValue8)/8;
        g_floatMicRead_Prom6 = g_floatMicPromValue;
        float l_floatCompareSound = 1.10*g_floatMicRead_Prom_5sec;
 
-       if (((l_floatLightSensorValue < g_uint16_tDayNight_Threshold) && (g_floatMicRead_Prom6 > (l_floatCompareSound)) && ~g_boolIsLightOn) || (l_boolWasButtonPushed))
+       ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+       //---------------------------Logica que determina si se enciende o no la luz-------------------------------
+       ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+       if ((l_floatLightSensorValue < g_uint16_tDayNight_Threshold) && (g_floatMicRead_Prom6 > (l_floatCompareSound)) && ~g_boolIsLightOn)
        {
            P2->OUT |= g_intLightsCtrl;
            g_boolIsLightOn = true;
@@ -187,8 +246,31 @@ void Set_Status()
                      TIMER32_CONTROL_IE;               // Para  habilitar el timer que cuenta cuando se enciende la luz
        }
 
+       if (l_boolWasButtonPushed) //Para el boton de encendido
+       {
+           P2->OUT ^= g_intLightsCtrl;
+
+           if (g_boolIsLightOn)
+           {
+               g_boolIsLightOn = false;
+           }
+           else
+           {
+               g_boolIsLightOn = true;
+           }
+
+           if (g_boolIsLightOn) //si se encienden las luces con el boton se activa la interrupcion
+           {
+               TIMER32_2->CONTROL |= TIMER32_CONTROL_ENABLE |
+                                    TIMER32_CONTROL_IE;      // Para  habilitar el timer que cuenta cuando se enciende la luz
+           }
+
+           l_boolWasButtonPushed = false;
+       }
+
     }
 }
+
 
 void initialConfiguration()
 {
@@ -286,6 +368,7 @@ extern "C"
     }
 }
 
+
 extern "C"
 {
     void T32_INT2_IRQHandler(void) //Interrupcion para la luz encendida
@@ -295,7 +378,7 @@ extern "C"
             P2->OUT &= ~g_intLightsCtrl;
             g_boolIsLightOn = false;
             TIMER32_2->CONTROL &= ~TIMER32_CONTROL_ENABLE &
-                      ~TIMER32_CONTROL_IE;      // Para  deshabilitar el timer que cuenta cuando se enciende la luz
+                      ~TIMER32_CONTROL_IE;      // Para  deshabilitar el timer que cuenta cuando se apaga la luz
         }
         else
         {
