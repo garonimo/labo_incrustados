@@ -1,9 +1,9 @@
 #include "msp.h"
 
-#include "driverlib.h"
+#include "cs.h"
+#include "rom_map.h"
 #include "HAL_I2C.h"
 #include "HAL_OPT3001.h"
-#include <iostream>
 
 int g_intNumberOfLights = 3; //1,2 o 3
 
@@ -19,6 +19,7 @@ bool g_boolUseRealTime = false;
 bool g_boolWasLightCtrlPushed = false;
 int g_intRealTimeCounter = 0;
 volatile uint16_t g_uint16MicrophoneValue;
+volatile uint16_t g_uint16LightSensorValue;
 int g_intMicValue1 = 0;
 int g_intMicValue2 = 0;
 int g_intMicValue3 = 0;
@@ -38,7 +39,7 @@ float g_floatMicRead_Prom_5sec = 0;  //promedio de os ultimos 5 segundos
 void BlinkLEDs()
 {
 
-    P2->DIR |= g_intLightsCtrl;
+    P2->DIR |= BIT0 | BIT1 | BIT2;
     P2->OUT |= g_intLightsCtrl;
 
     for(int i = 0; i < g_intBlinkTime; i++);
@@ -68,7 +69,7 @@ void ADC_SetUp()
     ADC14->CTL0 = ADC14_CTL0_ON | ADC14_CTL0_SHP| ADC14_CTL0_SHT0_2;
     // Conversiones de 14 bits
     ADC14->CTL1 = ADC14_CTL1_RES_2;
-    //
+    //Se pone el valor de plena escala
     ADC14->MCTL[0] |= ADC14_MCTLN_INCH_1;
     // Se habilitan las conversiones
     ADC14->CTL0 |= ADC14_CTL0_ENC;
@@ -77,7 +78,7 @@ void ADC_SetUp()
 
 void ligthSensor_SetUp()
 {
-    /* Initializes Clock System */
+    /* Se inicializa el sistema de relojes. MCLK = 48 MHz*/
     MAP_CS_setDCOCenteredFrequency(CS_DCO_FREQUENCY_48);
     MAP_CS_initClockSignal(CS_MCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1 );
     MAP_CS_initClockSignal(CS_HSMCLK, CS_DCOCLK_SELECT, CS_CLOCK_DIVIDER_1 );
@@ -287,7 +288,7 @@ void initialConfiguration()
      * del nivel de sonido de ese segundo con 8 muestras.
      * La primera vez guarda el promedio de los primeros 6 segundos en variables distintas,
      * despues va rotando cada valor. Haciendo que en la variable g_floatMicRead_Prom6 se guarde
-     * el promedio del ultimo segundo y en otra variable se pueda guardar el valos de los 5 segundos
+     * el promedio del ultimo segundo y en otra variable se pueda guardar el valor de los 5 segundos
      * anteriores al ultimo. */
 extern "C"
 {
