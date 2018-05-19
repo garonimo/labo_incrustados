@@ -2,32 +2,33 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="g_intBlinkTime" key="selection"/>
+		<item value="" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="l_intBlinkTime"/>
-			<item value="_intBlinkTime"/>
-			<item value="l_intMicPromValue"/>
-			<item value="Default_Handler"/>
-			<item value="Defaulr_Handler"/>
-			<item value="handler"/>
-			<item value="Handler"/>
-			<item value="DIR"/>
+			<item value="systemStack"/>
+			<item value="MAP_CS"/>
+			<item value="P4"/>
+			<item value="P4-&gt;DIR"/>
+			<item value="read16"/>
+			<item value="I2C_initMaster"/>
+			<item value="Init_I2C_GPIO"/>
+			<item value="I2C_Init"/>
 		</list>
 		<list key="replacehistory">
+			<item value="l_uint8ButtonFlag"/>
 			<item value="g_intBlinkTime"/>
 			<item value="l_floatMicPromValue"/>
 			<item value="&quot;"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="334" key="DIALOG_WIDTH"/>
+		<item value="352" key="DIALOG_WIDTH"/>
 		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
-		<item value="459" key="DIALOG_HEIGHT"/>
-		<item value="897" key="DIALOG_X_ORIGIN"/>
+		<item value="477" key="DIALOG_HEIGHT"/>
+		<item value="871" key="DIALOG_X_ORIGIN"/>
 		<item value="46" key="DIALOG_Y_ORIGIN"/>
 	</section>
 </section>

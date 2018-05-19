@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/home/andres/workspace_v7/labo_incrustados/MSP-EXP432P401R_Software_Examples_linux/Firmware/Source/BOOSTXL-EDUMKII_Accelerometer_MSP432P401R"/>
+	</list>
 	<section name="NewWizardAction">
 		<item value="org.eclipse.cdt.ui.wizards.NewCWizard2" key="NewWizardSelectionPage.STORE_SELECTED_ID"/>
 		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
 			<item value="org.eclipse.cdt.ui.newCWizards"/>
+			<item value="com.ti.common.ui.new"/>
 		</list>
 	</section>
 </section>

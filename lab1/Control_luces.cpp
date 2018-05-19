@@ -225,7 +225,6 @@ void Set_Status()
        while (!(ADC14->IFGR0 & BIT0));
        g_uint16MicrophoneValue = ADC14->MEM[0];             // Resultado del ADC
 
-
        /*En esta seccion hay calculos que ayudan a determinar si se encienden o no las luces
         * en la siguiente sección
         * */
