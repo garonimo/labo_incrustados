@@ -3,6 +3,7 @@
 #include "Scheduler.hpp"
 #include "Task.hpp"
 #include "LED.hpp"
+#include "Virtual_Hor.hpp"
 
 // ##########################
 // Global/Static declarations
@@ -19,11 +20,12 @@ void main(void)
 
     // - Instantiate two new Tasks
     LED BlueLED(BIT2);
-    LED GreenLED(BIT1);
+    Virtual_Hor Virtual_Hor_inst(1);
     // - Run the overall setup function for the system
     Setup();
     // - Attach the Tasks to the Scheduler;
     g_MainScheduler.attach(&BlueLED, 500);
+    g_MainScheduler.attach(&Virtual_Hor_inst, 1);  //Horizonte Virtual
     //g_MainScheduler.attach(&GreenLED, 300);
     // - Run the Setup for the scheduler and all tasks
     g_MainScheduler.setup();
@@ -58,7 +60,7 @@ void Setup(void)
     // ****************************
     // - P1.0 is connected to the Red LED
     // - This is the heart beat indicator.
-    P1->DIR |= BIT0; //Red LED
+    //P1->DIR |= BIT0; //Red LED
 
     // ****************************
     //       TIMER CONFIG
@@ -82,7 +84,7 @@ extern "C"
     void T32_INT1_IRQHandler(void)
     {
         TIMER32_1->INTCLR = 0U;
-        P1->OUT ^= BIT0; // - Toggle the heart beat indicator (1ms)
+        //P1->OUT ^= BIT0; // - Toggle the heart beat indicator (1ms)
         g_SystemTicks++;
         return;
     }
